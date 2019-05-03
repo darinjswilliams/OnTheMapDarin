@@ -41,6 +41,9 @@ class ParseClient {
                 return
             }
             
+            let range = Range(5..<data.count)
+            let newData = data.subdata(in: range)
+            
             let jsonDecoder = JSONDecoder()
             do {
                 let result = try jsonDecoder.decode(AllStudentsInformation.self, from: data)
@@ -59,6 +62,8 @@ class ParseClient {
     }
     
     class func getSortedStudentList(completion: @escaping ([StudentLocations]?, Error?)-> Void){
+        
+        NSLog("Entering GetSortedStudentList:")
         
         requestGetStudents(url: EndPoints.getStudentOrder.url) { (response, error) in
             

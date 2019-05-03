@@ -50,7 +50,7 @@ enum EndPoints {
         case .getStudentsSkip:
             return "https://parse.udacity.com/parse/classes/StudentLocation?Limit=200&skip=400"
         case .getStudentOrder:
-            return "https://parse.udacity.com/parse/classes/StudentLocation?order=-updateAt"
+            return "https://parse.udacity.com/parse/classes/StudentLocation?order=-updatedAt"
             
         }
     }
