@@ -43,27 +43,30 @@ class LoginViewController: UIViewController {
     
     private func  authenticationLoginSession(username: String, password: String){
         
-        OnTheMapRestClient.logInUdacity(username: username, password: password  )
-          { (success, error) in
-            if success {
-                print(username)
-                print(password)
-
-                self.performUIUpdatesOnMain {
-                    self.emailAddress.text = ""
-                    self.passWord.text = ""
-
-                    let mainController =  self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarController") as! UITabBarController
-                    self.present(mainController, animated: true, completion: nil)
-                    
-                }
-            } else {
-                self.performUIUpdatesOnMain {
-                    self.showFailure(message: "Login falied")
-                }
-            }
+//        OnTheMapRestClient.logInUdacity(username: username, password: password  )
+        OnTheMapRestClient.login(username: username, password: password, completionHandler: handleLoginResponse(success:error:))
+        
+    }
+    
+    func handleLoginResponse(success: Bool, error: Error?){
+   
+        if success {
             
+            self.performUIUpdatesOnMain {
+                self.emailAddress.text = ""
+                self.passWord.text = ""
+                
+                let mainController =  self.storyboard?.instantiateViewController(withIdentifier: "HomeTabBarController") as! UITabBarController
+                self.present(mainController, animated: true, completion: nil)
+                
+            }
+        } else {
+            self.performUIUpdatesOnMain {
+                self.showFailure(message: "Login falied")
+            }
         }
+        
+
     }
 
 

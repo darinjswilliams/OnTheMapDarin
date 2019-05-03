@@ -26,17 +26,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @objc func getStudentLocations() {
         
-        OnTheMapRestClient.requestSignedInUserInfo(completionHandler: handleGetSingleStudentInfo(studentInfo:error:))
+        OnTheMapRestClient.getSingleStudentInformation(completionHandler: handleGetSingleStudentResponse(success:error:))
+        
          ParseClient.requestLimitedStudents(completion: handleGetStudentLocation(studentLocation:error:))
       }
 
-    func handleGetSingleStudentInfo(studentInfo:StudentInfo?, error:Error?) {
-        guard let studentInfo = studentInfo else {
+    func handleGetSingleStudentResponse(success: Bool, error: Error?) {
+        
+        if !success {
             showFailure(message: "Unable to Download Your Student Location")
-            print(error!)
-            return
+        
         }
-        print("handleGetSingleStudentInfo: \(studentInfo)")
+      
         
     }
     

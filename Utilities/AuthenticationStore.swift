@@ -32,11 +32,11 @@ struct AuthenticationStore {
     
 }
 
-struct LoginRequest: Encodable {
+struct LoginRequest: Codable {
     let udacity: UserCredentials
 }
 
-struct UserCredentials: Encodable {
+struct UserCredentials: Codable {
     let username: String
     let password: String
 }
@@ -92,5 +92,6 @@ extension UserProfile: Codable {
         case nickname = "nickname"
     }
 }
+
 
 
