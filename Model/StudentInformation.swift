@@ -63,7 +63,7 @@ struct StudentInfo: Codable {
 }
 
 
-struct StudentNewLocation: Encodable {
+struct StudentNewLocation: Codable {
     var uniqueKey:String
     var firstName:String?
     var lastName:String?

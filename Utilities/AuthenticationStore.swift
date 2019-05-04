@@ -57,26 +57,6 @@ struct Session: Codable {
     let expiration: String
 }
 
-//extension Account: Codable {
-//    enum CodingKeys: String, CodingKey {
-//        case registered = "registered"
-//        case key = "key"
-//    }
-//}
-//
-//extension Session: Codable {
-//    enum CodingKeys: String, CodingKey {
-//        case id = "id"
-//        case expiration = "expeiration"
-//    }
-//}
-//
-//extension LoginResponse {
-//    enum CodingKeys: String, CodingKey {
-//        case account = "account"
-//        case session = "session"
-//    }
-//}
 
 struct UserProfile {
     var last_name: String

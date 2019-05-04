@@ -88,9 +88,10 @@ class ParseClient {
     }
     
     
-    class func postStudentNewLocation(completionHandler: @escaping (StudentPostLocationResponse?, Error?)-> Void) {
+    class func postStudentNewLocation(postInformation:StudentNewLocation, completionHandler: @escaping (StudentPostLocationResponse?, Error?)-> Void) {
+        
     
-        taskTotPostNewLocations(url: EndPoints.getStudentLimit.url, body: StudentNewLocation.self, responseType: StudentPostLocationResponse.self )
+        taskForPostNewLocations(url: EndPoints.getStudentLimit.url, responseType: StudentPostLocationResponse.self,  body: postInformation )
         { (response, error) in
             guard let response = response else {
                 print("requestLimitedStudents: Failed")
@@ -107,7 +108,7 @@ class ParseClient {
     }
     
 
-class func taskTotPostNewLocations<RequestType: Encodable, ResponseType: Decodable>(url: URL, body: RequestType.Type, responseType: ResponseType.Type, completionHandler: @escaping (RequestType?, Error?)->Void) -> URLSessionDataTask {
+class func taskForPostNewLocations<RequestType: Encodable, ResponseType: Decodable>(url: URL,  responseType: ResponseType.Type, body: RequestType, completionHandler: @escaping (ResponseType?, Error?)->Void) -> URLSessionDataTask {
         
     var request = URLRequest(url: url)
     request.httpMethod = AuthenticationStore.headerPost
@@ -116,14 +117,37 @@ class func taskTotPostNewLocations<RequestType: Encodable, ResponseType: Decodab
     request.addValue(AuthenticationStore.parseApiKey, forHTTPHeaderField: AuthenticationStore.headerParseAppKey)
     request.addValue(AuthenticationStore.headerJsonFormat, forHTTPHeaderField: AuthenticationStore.headerContentType)
     
-    let jsonEncoder = JSONEncoder()
-    let postData = try! jsonEncoder.encode(body)
-    request.httpBody = postData
-      print(postData)
-
-        
+     request.httpBody = try! JSONEncoder().encode(body)
     
-}
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        guard let data = data else {
+            DispatchQueue.main.async {
+                completionHandler(nil, error)
+            }
+            return
+        }
+        
+        let jsonDecoder = JSONDecoder()
+        do {
+            
+            let responseData = try! jsonDecoder.decode(
+               ResponseType.self, from: data)
+              print(String(data: data, encoding: .utf8)!)
+            
+                DispatchQueue.main.async {
+                    completionHandler(responseData,error)
+                }
+            
+        } catch {
+            DispatchQueue.main.async {
+                completionHandler(nil,error)
+            }
+        }
+    }
+    task.resume()
+    
+    return task
+ }
 
     
     class func requestPostLocations(postInformation:StudentNewLocation, completionHandler: @escaping (StudentPostLocationResponse?,Error?)->Void) {
