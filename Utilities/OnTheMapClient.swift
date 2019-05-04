@@ -134,56 +134,56 @@ class func taskForPOSTDecodeRequest<RequestType: Encodable, ResponseType: Decoda
     
     
     
-    class func taskForPOSTRequest(url: URL, body: String, completion: @escaping (
-        Data?, Error?) -> Void)-> URLSessionDataTask{
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = AuthenticationStore.headerPost
-        request.addValue(AuthenticationStore.headerJsonFormat, forHTTPHeaderField: AuthenticationStore.headerAccept)
-        request.addValue(AuthenticationStore.headerJsonFormat, forHTTPHeaderField: AuthenticationStore.headerContentType)
-        request.httpBody = body.data(using: String.Encoding.utf8)
-        
-        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
-            
-            func sendError(_ error: String) {
-                print(error)
-                let userInfo = [NSLocalizedDescriptionKey : error]
-                completion(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
-            }
-            
-            guard (error == nil) else {
-                sendError("There was an error with your request: \(error!.localizedDescription)")
-                return
-            }
-            
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
-                sendError("Request did not return a valid response.")
-                return
-            }
-            
-            switch (statusCode) {
-            case 403:
-                sendError("Please check your credentials and try again.")
-            case 200 ..< 299:
-                break
-            default:
-                sendError("Your request returned a status code other than 2xx!")
-            }
-            
-            guard let data = data else {
-                sendError("No data was returned by the request!")
-                return
-            }
-            
-            var newData = data
-            let range = Range(5..<data.count)
-            newData = data.subdata(in: range)
-            
-            completion(newData, nil)
-        }
-        task.resume()
-        return task
-    }
+//    class func taskForPOSTRequest(url: URL, body: String, completion: @escaping (
+//        Data?, Error?) -> Void)-> URLSessionDataTask{
+//        
+//        var request = URLRequest(url: url)
+//        request.httpMethod = AuthenticationStore.headerPost
+//        request.addValue(AuthenticationStore.headerJsonFormat, forHTTPHeaderField: AuthenticationStore.headerAccept)
+//        request.addValue(AuthenticationStore.headerJsonFormat, forHTTPHeaderField: AuthenticationStore.headerContentType)
+//        request.httpBody = body.data(using: String.Encoding.utf8)
+//        
+//        let task = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+//            
+//            func sendError(_ error: String) {
+//                print(error)
+//                let userInfo = [NSLocalizedDescriptionKey : error]
+//                completion(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
+//            }
+//            
+//            guard (error == nil) else {
+//                sendError("There was an error with your request: \(error!.localizedDescription)")
+//                return
+//            }
+//            
+//            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
+//                sendError("Request did not return a valid response.")
+//                return
+//            }
+//            
+//            switch (statusCode) {
+//            case 403:
+//                sendError("Please check your credentials and try again.")
+//            case 200 ..< 299:
+//                break
+//            default:
+//                sendError("Your request returned a status code other than 2xx!")
+//            }
+//            
+//            guard let data = data else {
+//                sendError("No data was returned by the request!")
+//                return
+//            }
+//            
+//            var newData = data
+//            let range = Range(5..<data.count)
+//            newData = data.subdata(in: range)
+//            
+//            completion(newData, nil)
+//        }
+//        task.resume()
+//        return task
+//    }
     
 //    class func requestSignedInUserInfo(completionHandler: @escaping (StudentInfo?,Error?)->Void) {
 //        let url = EndPoints.getUserSession(AuthenticationStore.userKey).url

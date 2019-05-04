@@ -11,20 +11,44 @@ import Foundation
 class ParseClient {
     
     
-    class func requestLimitedStudents(completion: @escaping ([StudentLocations]?, Error?)-> Void){
-        requestGetStudents(url: EndPoints.getStudentLimit.url) { (response, error) in
+    class func requestLimitedStudents(completionHandler: @escaping ([StudentLocations]?, Error?)-> Void){
+        taskForGETRequest(url: EndPoints.getStudentLimit.url, response: AllStudentsInformation.self) { (response, error) in
             guard let response = response else {
                 print("requestLimitedStudents: Failed")
-                completion(nil, error)
+             DispatchQueue.main.async {
+                completionHandler(nil, error)
+                }
                 return
             }
-            completion(response,nil)
+            DispatchQueue.main.async {
+                completionHandler(response.results, error)
+            }
         }
     }
     
-    class func requestGetStudents(url: URL, completionHandler: @escaping ([StudentLocations]?,Error?)->Void) {
+    
+    //This is Called by Studnet List Controller
+    class func getSortedStudentList(completionHandler: @escaping ([StudentLocations]?, Error?)-> Void){
+        
+        
+        taskForGETRequest(url: EndPoints.getStudentOrder.url, response: AllStudentsInformation.self) { (response, error) in
+            
+            guard let response = response else {
+                print("requestSortedStudentLists: Failed")
+                completionHandler(nil, error)
+                return
+            }
+            print("getStudentList..\(response)")
+            completionHandler(response.results,error)
+        }
+    }
+    
+
+    class func taskForGETRequest<ResponseType: Decodable>(url: URL, response: ResponseType.Type,  completionHandler: @escaping (ResponseType?, Error?) -> Void) -> URLSessionDataTask {
+        
         var request = URLRequest(url: url)
-   
+        print("here is the url \(url)")
+        
         request.addValue(AuthenticationStore.parseAppId, forHTTPHeaderField: AuthenticationStore.headerParseAppId)
         
         request.addValue(AuthenticationStore.parseApiKey, forHTTPHeaderField: AuthenticationStore.headerParseAppKey)
@@ -46,9 +70,9 @@ class ParseClient {
             
             let jsonDecoder = JSONDecoder()
             do {
-                let result = try jsonDecoder.decode(AllStudentsInformation.self, from: data)
+                let result = try jsonDecoder.decode(ResponseType.self, from: data)
                 DispatchQueue.main.async {
-                    completionHandler(result.results, nil)
+                    completionHandler(result, nil)
                 }
                 
             } catch {
@@ -59,23 +83,48 @@ class ParseClient {
         }
         
         downloadTask.resume()
+        
+        return downloadTask
     }
     
-    class func getSortedStudentList(completion: @escaping ([StudentLocations]?, Error?)-> Void){
-        
-        NSLog("Entering GetSortedStudentList:")
-        
-        requestGetStudents(url: EndPoints.getStudentOrder.url) { (response, error) in
-            
+    
+    class func postStudentNewLocation(completionHandler: @escaping (StudentPostLocationResponse?, Error?)-> Void) {
+    
+        taskTotPostNewLocations(url: EndPoints.getStudentLimit.url, body: StudentNewLocation.self, responseType: StudentPostLocationResponse.self )
+        { (response, error) in
             guard let response = response else {
-                print("requestSortedStudentLists: Failed")
-                completion(nil, error)
+                print("requestLimitedStudents: Failed")
+                DispatchQueue.main.async {
+                    completionHandler(nil, error)
+                }
                 return
             }
-            print("getStudentList..\(response)")
-            completion(response,error)
+            
+            DispatchQueue.main.async {
+                completionHandler(response, error)
+            }
         }
     }
+    
+
+class func taskTotPostNewLocations<RequestType: Encodable, ResponseType: Decodable>(url: URL, body: RequestType.Type, responseType: ResponseType.Type, completionHandler: @escaping (RequestType?, Error?)->Void) -> URLSessionDataTask {
+        
+    var request = URLRequest(url: url)
+    request.httpMethod = AuthenticationStore.headerPost
+    request.addValue(AuthenticationStore.parseAppId, forHTTPHeaderField: AuthenticationStore.headerParseAppId)
+    
+    request.addValue(AuthenticationStore.parseApiKey, forHTTPHeaderField: AuthenticationStore.headerParseAppKey)
+    request.addValue(AuthenticationStore.headerJsonFormat, forHTTPHeaderField: AuthenticationStore.headerContentType)
+    
+    let jsonEncoder = JSONEncoder()
+    let postData = try! jsonEncoder.encode(body)
+    request.httpBody = postData
+      print(postData)
+
+        
+    
+}
+
     
     class func requestPostLocations(postInformation:StudentNewLocation, completionHandler: @escaping (StudentPostLocationResponse?,Error?)->Void) {
         let endpoint:URL = EndPoints.getStudentBase.url

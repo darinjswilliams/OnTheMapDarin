@@ -13,12 +13,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     @IBOutlet weak var mapView: MKMapView!
     var mapAnnotations = [MKAnnotation]()
     var studentInformation:[StudentLocations] = [StudentLocations]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK START ACTIVITY INDICATOR
+         activityIndicator.startAnimating()
          self.getStudentLocations()
         // Do any additional setup after loading the view.
     }
@@ -28,31 +33,26 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         OnTheMapRestClient.getSingleStudentInformation(completionHandler: handleGetSingleStudentResponse(success:error:))
         
-         ParseClient.requestLimitedStudents(completion: handleGetStudentLocation(studentLocation:error:))
+         ParseClient.requestLimitedStudents(completionHandler: handleGetStudentLocation(studentLocation:error:))
+        
+        //MARK : STOP ACITIVITY INDICATOR
+        activityIndicator.stopAnimating()
       }
 
     func handleGetSingleStudentResponse(success: Bool, error: Error?) {
-        
         if !success {
             showFailure(message: "Unable to Download Your Student Location")
         
         }
-      
-        
     }
     
-    @IBAction func StudentIfoData(_ sender: Any) {
-    }
-    
-    
-    
+    //MARK The repsone that calls update Map with student locations
     func handleGetStudentLocation(studentLocation:[StudentLocations]?, error:Error?) {
         guard let studentLocation = studentLocation else {
             showFailure(message: "Unable to Download Student Locations")
             print(error!)
             return
         }
-//        createMapAnnotation(studentInfos:studentInfos)
         print("handelGetStudentLocation \(studentLocation)")
         updateMapWithStudentLocations(studentLocations: studentLocation)
     }

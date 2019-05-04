@@ -152,6 +152,10 @@
                                     <outlet property="delegate" destination="qM9-dG-cQJ" id="Cah-Fc-t6r"/>
                                 </connections>
                             </mapView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="YjI-3k-aGd">
+                                <rect key="frame" x="187" y="114" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -185,6 +189,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="YjI-3k-aGd" id="Pec-kI-gyB"/>
                         <outlet property="mapView" destination="1JZ-fC-LVM" id="PMp-s0-rDt"/>
                     </connections>
                 </viewController>
@@ -428,6 +433,10 @@
                                     <action selector="finishToPostBtn:" destination="YBT-RK-pZV" eventType="touchUpInside" id="6pM-t5-Lnr"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zc0-cx-L8e">
+                                <rect key="frame" x="177" y="136" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -443,6 +452,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="oNy-VB-Fwr"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="zc0-cx-L8e" id="g0K-ob-0ep"/>
                         <outlet property="mapView" destination="hL2-2a-rjS" id="DcI-PX-AxT"/>
                     </connections>
                 </viewController>
@@ -461,6 +471,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="eqC-Gx-Wmv"/>
-        <segue reference="6sB-5b-7PB"/>
+        <segue reference="wVT-XX-Jxp"/>
     </inferredMetricsTieBreakers>
 </document>

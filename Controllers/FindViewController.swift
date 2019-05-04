@@ -49,6 +49,8 @@ class FindViewController: UIViewController, UITextFieldDelegate {
     }
     
     
+     //MARK The CLGeocoder class provides services for converting between a coordinate (specified as a latitude and longitude) and the user-friendly representation of that coordinate.
+    
     func findCoordinates(validAddress: String, completionHandler: @escaping(CLLocationCoordinate2D,
         NSError?) -> Void ) {
         let geocoder = CLGeocoder()
@@ -62,7 +64,7 @@ class FindViewController: UIViewController, UITextFieldDelegate {
                 }
             }
             
-           //Use KCLLocationCoordinate2DInvalid Use this constant when you want to indicate that a coordinate is invalid.
+            // Mark: Use KCLLocationCoordinate2DInvalid Use this constant when you want to indicate that a coordinate is invalid.
             completionHandler(kCLLocationCoordinate2DInvalid, error as NSError?)
         }
     }
@@ -79,9 +81,8 @@ class FindViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    //prepare vars to pass to contorller
+    //MARK: All Controller inherit prepare, which is called before performSeque
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let controller = segue.destination as!  PostViewController
     
         guard let controllerViewDest = segue.destination as? PostViewController else {
             showFailure(message: "Please recheck address")

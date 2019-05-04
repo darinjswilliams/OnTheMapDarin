@@ -17,11 +17,13 @@ class PostViewController: UIViewController {
         postMediaURL: String = "",
         postNewLocation: String  = ""
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        activityIndicator.startAnimating()
         print(postLongitude)
         print(postLatitude)
         print(postNewLocation)
@@ -45,13 +47,15 @@ class PostViewController: UIViewController {
         ParseClient.requestPostLocations(postInformation: studentNewLocation, completionHandler: handlePostLocationReponse(postStudentLocationResponse:error:))
     }
     
+    
+    //MARK: THIS IS HOW PINS ARE POSTED TO THE MAP
     func postPinToMapAnnotation() {
         let lat = CLLocationDegrees(postLatitude)
         let long = CLLocationDegrees(postLongitude)
         let cordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
         let annotation = MKPointAnnotation()
         annotation.coordinate = cordinate
-        annotation.title = "New Location Marker"
+        annotation.title = "Marker: Found your new Location"
         self.mapView.addAnnotation(annotation)
         let coordinateRegion = MKCoordinateRegion.init(center: annotation.coordinate, latitudinalMeters: 30000, longitudinalMeters: 30000  )
         mapView.setRegion(coordinateRegion, animated: true)
@@ -69,9 +73,12 @@ class PostViewController: UIViewController {
                 self.dismiss(animated: true, completion: nil)
             })
             )
+            activityIndicator.stopAnimating()
             present(alertVC, animated: true, completion: nil)
             return
         }
+        
+        activityIndicator.stopAnimating()
         dismiss(animated: true, completion: nil)
         
     }
