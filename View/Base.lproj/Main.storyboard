@@ -142,27 +142,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="K2N-cU-ilT">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="kX5-sg-LFi">
                                 <rect key="frame" x="0.0" y="64" width="375" height="510"/>
                             </mapView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="1JZ-fC-LVM">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <outlet property="delegate" destination="qM9-dG-cQJ" id="Cah-Fc-t6r"/>
-                                </connections>
-                            </mapView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="YjI-3k-aGd">
-                                <rect key="frame" x="187" y="114" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="jNA-af-PAG">
+                                <rect key="frame" x="177" y="91" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="K2N-cU-ilT" firstAttribute="leading" secondItem="n0k-dH-VvA" secondAttribute="leading" id="MCJ-4o-dA2"/>
-                            <constraint firstItem="n0k-dH-VvA" firstAttribute="bottom" secondItem="K2N-cU-ilT" secondAttribute="bottom" id="N0x-Vc-bhh"/>
-                            <constraint firstItem="n0k-dH-VvA" firstAttribute="trailing" secondItem="K2N-cU-ilT" secondAttribute="trailing" id="bQH-fY-fmE"/>
-                            <constraint firstItem="K2N-cU-ilT" firstAttribute="top" secondItem="n0k-dH-VvA" secondAttribute="top" id="gw5-5u-Pb0"/>
+                            <constraint firstItem="n0k-dH-VvA" firstAttribute="trailing" secondItem="kX5-sg-LFi" secondAttribute="trailing" id="6s3-kY-7s6"/>
+                            <constraint firstItem="kX5-sg-LFi" firstAttribute="top" secondItem="n0k-dH-VvA" secondAttribute="top" id="9N5-tF-kbv"/>
+                            <constraint firstItem="n0k-dH-VvA" firstAttribute="bottom" secondItem="kX5-sg-LFi" secondAttribute="bottom" id="bvY-Fc-YBi"/>
+                            <constraint firstItem="kX5-sg-LFi" firstAttribute="leading" secondItem="n0k-dH-VvA" secondAttribute="leading" id="fmr-Am-Jsi"/>
+                            <constraint firstItem="kX5-sg-LFi" firstAttribute="top" secondItem="jNA-af-PAG" secondAttribute="bottom" constant="-47" id="tUK-Eh-9EG"/>
+                            <constraint firstItem="kX5-sg-LFi" firstAttribute="leading" secondItem="jNA-af-PAG" secondAttribute="trailing" constant="-197" id="tb7-Ud-wgg"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="n0k-dH-VvA"/>
                     </view>
@@ -189,13 +183,13 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="YjI-3k-aGd" id="Pec-kI-gyB"/>
-                        <outlet property="mapView" destination="1JZ-fC-LVM" id="PMp-s0-rDt"/>
+                        <outlet property="activityIndicator" destination="jNA-af-PAG" id="oiw-Dg-guH"/>
+                        <outlet property="mapView" destination="kX5-sg-LFi" id="ADr-IS-gfb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ySl-nT-sKB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1358" y="-116"/>
+            <point key="canvasLocation" x="1311" y="-117"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="BL3-ZL-pK6">
@@ -433,10 +427,6 @@
                                     <action selector="finishToPostBtn:" destination="YBT-RK-pZV" eventType="touchUpInside" id="6pM-t5-Lnr"/>
                                 </connections>
                             </button>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zc0-cx-L8e">
-                                <rect key="frame" x="177" y="136" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -452,7 +442,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="oNy-VB-Fwr"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="zc0-cx-L8e" id="g0K-ob-0ep"/>
                         <outlet property="mapView" destination="hL2-2a-rjS" id="DcI-PX-AxT"/>
                     </connections>
                 </viewController>

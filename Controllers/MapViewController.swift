@@ -21,22 +21,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //MARK START ACTIVITY INDICATOR
-         activityIndicator.startAnimating()
+
          self.getStudentLocations()
         // Do any additional setup after loading the view.
     }
     
     
     @objc func getStudentLocations() {
-        
+          //MARK START ACTIVITY INDICATOR
+//          isFetchingMap(success: true)
         OnTheMapRestClient.getSingleStudentInformation(completionHandler: handleGetSingleStudentResponse(success:error:))
         
          ParseClient.requestLimitedStudents(completionHandler: handleGetStudentLocation(studentLocation:error:))
         
-        //MARK : STOP ACITIVITY INDICATOR
-        activityIndicator.stopAnimating()
+        
       }
 
     func handleGetSingleStudentResponse(success: Bool, error: Error?) {
@@ -54,6 +52,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             return
         }
         print("handelGetStudentLocation \(studentLocation)")
+      
         updateMapWithStudentLocations(studentLocations: studentLocation)
     }
     
@@ -62,6 +61,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         print("udpateMapwithStudents\(studentLocations.count)")
         //           self.mapView.removeAnnotations(mapView.annotations)
+       
         
         for student in studentLocations {
             print("Inside for loop with studnet \(student)")
@@ -79,6 +79,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         self.mapView.addAnnotations(mapAnnotations)
         
+        //MARK : STOP ACITIVITY INDICATOR
+        //        activityIndicator.stopAnimating()
+//        isFetchingMap(success: false)
     }
     
     // each pin's rendering
@@ -117,6 +120,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func handleURLResponse(success:Bool?){
         guard let success = success else {
             print("failute invalid url")
+            showFailure(message: "Invalid URL")
             return
         }
         
@@ -141,6 +145,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 self.dismiss(animated: true, completion: nil)
         }
     }
-
+    
+    func isFetchingMap(success: Bool){
+    
+    if success {
+         activityIndicator.startAnimating()
+    }
+        activityIndicator.stopAnimating()
+        
+    }
 
 }

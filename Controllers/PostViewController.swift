@@ -23,7 +23,10 @@ class PostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        activityIndicator.style = UIActivityIndicatorView.Style.whiteLarge
         activityIndicator.startAnimating()
+        
         print(postLongitude)
         print(postLatitude)
         print(postNewLocation)
@@ -79,6 +82,7 @@ class PostViewController: UIViewController {
         }
         
         activityIndicator.stopAnimating()
+        activityIndicator.hidesWhenStopped = true
         dismiss(animated: true, completion: nil)
         
     }
