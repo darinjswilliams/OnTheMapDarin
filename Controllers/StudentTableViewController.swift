@@ -57,7 +57,7 @@ class StudentTableViewController: UITableViewController {
     @objc func populateTable(){
 //        ParseClient.getSortedStudentList(completionHandler: handleStudentResponse(studentLocations:error:))
         
-        ParseClient.processStudentRequest(url: EndPoints.getStudentLimit.url, completionHandler: handleStudentResponse(studentLocations:error:))
+        ParseClient.processStudentRequest(url: EndPoints.getStudentOrder.url, completionHandler: handleStudentResponse(studentLocations:error:))
     }
     
     func handleStudentResponse(studentLocations:[StudentLocations]?, error:Error?) {
