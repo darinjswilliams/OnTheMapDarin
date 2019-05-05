@@ -43,16 +43,43 @@ class ParseClient {
         }
     }
     
+    
+    class func postStudentNewLocation(postInformation:StudentNewLocation, completionHandler: @escaping (StudentPostLocationResponse?, Error?)-> Void) {
+        
+        
+        taskForPostNewLocations(url: EndPoints.getStudentLimit.url, responseType: StudentPostLocationResponse.self,  body: postInformation )
+        { (response, error) in
+            guard let response = response else {
+                print("requestLimitedStudents: Failed")
+                DispatchQueue.main.async {
+                    completionHandler(nil, error)
+                }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completionHandler(response, error)
+            }
+        }
+    }
+    
+    
+    fileprivate static func extractedFunc(_ request: inout URLRequest) {
+        request.addValue(AuthenticationStore.parseAppId, forHTTPHeaderField: AuthenticationStore.headerParseAppId)
+        
+        request.addValue(AuthenticationStore.parseApiKey, forHTTPHeaderField: AuthenticationStore.headerParseAppKey)
+        request.addValue(AuthenticationStore.headerJsonFormat, forHTTPHeaderField: AuthenticationStore.headerContentType)
+    }
 
     class func taskForGETRequest<ResponseType: Decodable>(url: URL, response: ResponseType.Type,  completionHandler: @escaping (ResponseType?, Error?) -> Void) -> URLSessionDataTask {
         
         var request = URLRequest(url: url)
         print("here is the url \(url)")
         
-        request.addValue(AuthenticationStore.parseAppId, forHTTPHeaderField: AuthenticationStore.headerParseAppId)
-        
-        request.addValue(AuthenticationStore.parseApiKey, forHTTPHeaderField: AuthenticationStore.headerParseAppKey)
-        
+//        request.addValue(AuthenticationStore.parseAppId, forHTTPHeaderField: AuthenticationStore.headerParseAppId)
+//
+//        request.addValue(AuthenticationStore.parseApiKey, forHTTPHeaderField: AuthenticationStore.headerParseAppKey)
+         extractedFunc(&request)
         
         let downloadTask = URLSession.shared.dataTask(with: request) {
             (data, response, error) in
@@ -88,34 +115,13 @@ class ParseClient {
     }
     
     
-    class func postStudentNewLocation(postInformation:StudentNewLocation, completionHandler: @escaping (StudentPostLocationResponse?, Error?)-> Void) {
-        
     
-        taskForPostNewLocations(url: EndPoints.getStudentLimit.url, responseType: StudentPostLocationResponse.self,  body: postInformation )
-        { (response, error) in
-            guard let response = response else {
-                print("requestLimitedStudents: Failed")
-                DispatchQueue.main.async {
-                    completionHandler(nil, error)
-                }
-                return
-            }
-            
-            DispatchQueue.main.async {
-                completionHandler(response, error)
-            }
-        }
-    }
-    
-
-class func taskForPostNewLocations<RequestType: Encodable, ResponseType: Decodable>(url: URL,  responseType: ResponseType.Type, body: RequestType, completionHandler: @escaping (ResponseType?, Error?)->Void) -> URLSessionDataTask {
+    class func taskForPostNewLocations<RequestType: Encodable, ResponseType: Decodable>(url: URL,  responseType: ResponseType.Type, body: RequestType, completionHandler: @escaping (ResponseType?, Error?)->Void) -> URLSessionDataTask {
         
     var request = URLRequest(url: url)
     request.httpMethod = AuthenticationStore.headerPost
-    request.addValue(AuthenticationStore.parseAppId, forHTTPHeaderField: AuthenticationStore.headerParseAppId)
-    
-    request.addValue(AuthenticationStore.parseApiKey, forHTTPHeaderField: AuthenticationStore.headerParseAppKey)
-    request.addValue(AuthenticationStore.headerJsonFormat, forHTTPHeaderField: AuthenticationStore.headerContentType)
+        
+    extractedFunc(&request)
     
      request.httpBody = try! JSONEncoder().encode(body)
     
@@ -154,10 +160,12 @@ class func taskForPostNewLocations<RequestType: Encodable, ResponseType: Decodab
         let endpoint:URL = EndPoints.getStudentBase.url
         var request = URLRequest(url: endpoint)
         request.httpMethod = AuthenticationStore.headerPost
-        request.addValue(AuthenticationStore.parseAppId, forHTTPHeaderField: AuthenticationStore.headerParseAppId)
         
-        request.addValue(AuthenticationStore.parseApiKey, forHTTPHeaderField: AuthenticationStore.headerParseAppKey)
-        request.addValue(AuthenticationStore.headerJsonFormat, forHTTPHeaderField: AuthenticationStore.headerContentType)
+         extractedFunc(&request)
+//        request.addValue(AuthenticationStore.parseAppId, forHTTPHeaderField: AuthenticationStore.headerParseAppId)
+//
+//        request.addValue(AuthenticationStore.parseApiKey, forHTTPHeaderField: AuthenticationStore.headerParseAppKey)
+//        request.addValue(AuthenticationStore.headerJsonFormat, forHTTPHeaderField: AuthenticationStore.headerContentType)
         
         let jsonEncoder = JSONEncoder()
         let encodedPostData = try! jsonEncoder.encode(postInformation)

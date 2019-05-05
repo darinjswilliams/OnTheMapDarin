@@ -21,15 +21,21 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        
+//        isFetchingMap(success: true)
+        
          self.getStudentLocations()
         // Do any additional setup after loading the view.
+        
     }
     
     
     @objc func getStudentLocations() {
+        
           //MARK START ACTIVITY INDICATOR
-//          isFetchingMap(success: true)
+          activityIndicator.startAnimating()
+        
         OnTheMapRestClient.getSingleStudentInformation(completionHandler: handleGetSingleStudentResponse(success:error:))
         
          ParseClient.requestLimitedStudents(completionHandler: handleGetStudentLocation(studentLocation:error:))
@@ -46,6 +52,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     //MARK The repsone that calls update Map with student locations
     func handleGetStudentLocation(studentLocation:[StudentLocations]?, error:Error?) {
+        
+       
         guard let studentLocation = studentLocation else {
             showFailure(message: "Unable to Download Student Locations")
             print(error!)
@@ -62,6 +70,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         print("udpateMapwithStudents\(studentLocations.count)")
         //           self.mapView.removeAnnotations(mapView.annotations)
        
+        activityIndicator.stopAnimating()
         
         for student in studentLocations {
             print("Inside for loop with studnet \(student)")
@@ -81,7 +90,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         //MARK : STOP ACITIVITY INDICATOR
         //        activityIndicator.stopAnimating()
-//        isFetchingMap(success: false)
+
     }
     
     // each pin's rendering

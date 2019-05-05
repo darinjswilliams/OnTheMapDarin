@@ -32,7 +32,7 @@ class FindViewController: UIViewController, UITextFieldDelegate {
 
     @IBAction func findStudentLocationButton(_ sender: Any) {
        
-        guard let _ = studentLocation.text?.isEmpty else {
+        guard let locationEnter = studentLocation.text, !locationEnter.isEmpty else {
               showFailure(message: "Not a valid location")
             
             return
@@ -89,6 +89,7 @@ class FindViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
+        controllerViewDest.postNewLocation = studentLocation.text!
         controllerViewDest.postLatitude = addressLatitude
         controllerViewDest.postLongitude = addressLongitude
         controllerViewDest.postMediaURL = mediaURL.text ?? ""

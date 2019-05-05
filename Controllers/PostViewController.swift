@@ -24,8 +24,6 @@ class PostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        activityIndicator.style = UIActivityIndicatorView.Style.whiteLarge
-        activityIndicator.startAnimating()
         
         print(postLongitude)
         print(postLatitude)
@@ -58,7 +56,7 @@ class PostViewController: UIViewController {
         let cordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
         let annotation = MKPointAnnotation()
         annotation.coordinate = cordinate
-        annotation.title = "Marker: Found your new Location"
+        annotation.title = "Marker: \(postNewLocation)"
         self.mapView.addAnnotation(annotation)
         let coordinateRegion = MKCoordinateRegion.init(center: annotation.coordinate, latitudinalMeters: 30000, longitudinalMeters: 30000  )
         mapView.setRegion(coordinateRegion, animated: true)
@@ -81,8 +79,6 @@ class PostViewController: UIViewController {
             return
         }
         
-        activityIndicator.stopAnimating()
-        activityIndicator.hidesWhenStopped = true
         dismiss(animated: true, completion: nil)
         
     }

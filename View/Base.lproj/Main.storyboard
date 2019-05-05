@@ -144,19 +144,22 @@
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="kX5-sg-LFi">
                                 <rect key="frame" x="0.0" y="64" width="375" height="510"/>
+                                <connections>
+                                    <outlet property="delegate" destination="qM9-dG-cQJ" id="WfI-It-Oju"/>
+                                </connections>
                             </mapView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="jNA-af-PAG">
-                                <rect key="frame" x="177" y="91" width="20" height="20"/>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="hLa-Ri-CJD">
+                                <rect key="frame" x="170" y="123" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="n0k-dH-VvA" firstAttribute="trailing" secondItem="kX5-sg-LFi" secondAttribute="trailing" id="6s3-kY-7s6"/>
                             <constraint firstItem="kX5-sg-LFi" firstAttribute="top" secondItem="n0k-dH-VvA" secondAttribute="top" id="9N5-tF-kbv"/>
+                            <constraint firstItem="kX5-sg-LFi" firstAttribute="top" secondItem="hLa-Ri-CJD" secondAttribute="bottom" constant="-44" id="aRy-TO-ki8"/>
                             <constraint firstItem="n0k-dH-VvA" firstAttribute="bottom" secondItem="kX5-sg-LFi" secondAttribute="bottom" id="bvY-Fc-YBi"/>
+                            <constraint firstItem="kX5-sg-LFi" firstAttribute="leading" secondItem="hLa-Ri-CJD" secondAttribute="trailing" constant="-190" id="cc5-Q9-fyj"/>
                             <constraint firstItem="kX5-sg-LFi" firstAttribute="leading" secondItem="n0k-dH-VvA" secondAttribute="leading" id="fmr-Am-Jsi"/>
-                            <constraint firstItem="kX5-sg-LFi" firstAttribute="top" secondItem="jNA-af-PAG" secondAttribute="bottom" constant="-47" id="tUK-Eh-9EG"/>
-                            <constraint firstItem="kX5-sg-LFi" firstAttribute="leading" secondItem="jNA-af-PAG" secondAttribute="trailing" constant="-197" id="tb7-Ud-wgg"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="n0k-dH-VvA"/>
                     </view>
@@ -183,7 +186,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="jNA-af-PAG" id="oiw-Dg-guH"/>
+                        <outlet property="activityIndicator" destination="hLa-Ri-CJD" id="VZL-pa-uf9"/>
                         <outlet property="mapView" destination="kX5-sg-LFi" id="ADr-IS-gfb"/>
                     </connections>
                 </viewController>

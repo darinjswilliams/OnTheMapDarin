@@ -21,7 +21,9 @@ extension UIViewController {
     func showFailure(message: String) {
         let alertVC = UIAlertController(title: "Attention", message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        show(alertVC, sender: nil)
+        
+        self.present(alertVC, animated: true)
     }
 
+    
 }
