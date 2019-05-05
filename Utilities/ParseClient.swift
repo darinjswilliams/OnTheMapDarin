@@ -9,7 +9,8 @@
 import Foundation
 
 class ParseClient {
-    
+
+    //MARK Method is called by StudentTableViewController
     
     class func processStudentRequest(url: URL, completionHandler: @escaping ([StudentLocations]?, Error?)-> Void){
      
@@ -26,6 +27,9 @@ class ParseClient {
             }
         }
     }
+    
+    
+    //MARK: Method is called by PostViewController to Post New Location
 
     class func postStudentNewLocation(postInformation:StudentNewLocation, completionHandler: @escaping (StudentPostLocationResponse?, Error?)-> Void) {
         

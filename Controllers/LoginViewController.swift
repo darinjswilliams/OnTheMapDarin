@@ -19,7 +19,8 @@ class LoginViewController: UIViewController {
     }
     
     
-    @IBAction func loginUser(_ sender: Any) {
+
+    @IBAction func loginUser(_ sender: UIButton) {
         
         guard let userEmailAddr = self.emailAddress.text, !userEmailAddr.isEmpty else {
             showFailure(message: "Email Required")
@@ -31,22 +32,21 @@ class LoginViewController: UIViewController {
             return
         }
         
-        authenticationLoginSession(username: userEmailAddr, password: userPassWord)
+//        authenticationLoginSession(username: userEmailAddr, password: userPassWord)
+        //MARK Check for Credentials
+          OnTheMapRestClient.login(username: userEmailAddr, password: userPassWord, completionHandler: handleLoginResponse(success:error:))
        
     }
     
     
     
-    @IBAction func signUpUser(_ sender: Any) {
-    }
-    
-    
-    private func  authenticationLoginSession(username: String, password: String){
-        
-//        OnTheMapRestClient.logInUdacity(username: username, password: password  )
-        OnTheMapRestClient.login(username: username, password: password, completionHandler: handleLoginResponse(success:error:))
+    @IBAction func signUpUser(_ sender: UIButton) {
+        DispatchQueue.main.async {
+           UIApplication.shared.open(EndPoints.signIn.url, options: [:], completionHandler: nil)
+        }
         
     }
+    
     
     func handleLoginResponse(success: Bool, error: Error?){
    
@@ -61,9 +61,9 @@ class LoginViewController: UIViewController {
                 
             }
         } else {
-            self.performUIUpdatesOnMain {
-                self.showFailure(message: "Login falied")
-            }
+      
+                self.showFailure(message: "Login falied: \(error)")
+       
         }
         
 

@@ -43,7 +43,7 @@ class PostViewController: UIViewController {
     }
     
     func postStudentDataWithParse(){
-        let studentNewLocation = StudentNewLocation(uniqueKey: AuthenticationStore.userKey, firstName: "", lastName: "Test Name", mapString: postNewLocation, mediaURL: postMediaURL, latitude: postLatitude, longitude: postLongitude)
+        let studentNewLocation = StudentNewLocation(uniqueKey: AuthenticationStore.userKey, firstName: "Udacity", lastName: "Student", mapString: postNewLocation, mediaURL: postMediaURL, latitude: postLatitude, longitude: postLongitude)
         
         ParseClient.postStudentNewLocation(postInformation: studentNewLocation, completionHandler: handlePostLocationReponse(postStudentLocationResponse:error:))
     }

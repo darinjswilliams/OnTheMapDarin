@@ -27,7 +27,7 @@ class StudentTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let url = studentInformation[indexPath.row].mediaURL
-        if verifyUrl(urlString: url){
+        if checkForValidURL(urlString: url){
             let temp = URL(string: url!)
             UIApplication.shared.open(temp!, options: [:])
         }else {
@@ -74,11 +74,11 @@ class StudentTableViewController: UITableViewController {
         }
     }
     
-    func verifyUrl (urlString: String?) -> Bool {
+    func checkForValidURL(urlString: String?) -> Bool {
         if let urlString = urlString {
-            if let url = URL(string: urlString) {
-                return UIApplication.shared.canOpenURL(url)
-            }
+//            if let url = URL(EndPoints.getStudentURL(urlString).url) {
+                return UIApplication.shared.canOpenURL(EndPoints.getStudentURL(urlString).url)
+//            }
         }
         return false
     }

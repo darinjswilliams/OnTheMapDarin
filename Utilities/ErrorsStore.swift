@@ -20,3 +20,9 @@ extension OnTheMapErrorResponse: LocalizedError {
     }
 }
 
+
+struct ErrorCode {
+    
+    static let inValidErrorCode = 400
+    
+}

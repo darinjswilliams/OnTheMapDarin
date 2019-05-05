@@ -23,8 +23,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         
-//        isFetchingMap(success: true)
-        
          self.getStudentLocations()
         // Do any additional setup after loading the view.
         
@@ -44,7 +42,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     func handleGetSingleStudentResponse(success: Bool, error: Error?) {
         if !success {
-            showFailure(message: "Unable to Download Your Student Location")
+            showFailure(message: "Invalid:   \(error)")
         
         }
     }

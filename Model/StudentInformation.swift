@@ -29,7 +29,7 @@ struct StudentLocations: Codable {
 
         guard let fname = firstName, !fname.isEmpty,
             let  lname = lastName, !lname.isEmpty else {
-                return  "No first name Or last Name"
+                return  "Udacity Student"
         }
 
         studentName = fname + lname

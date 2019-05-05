@@ -19,9 +19,10 @@ class func login(username: String, password: String, completionHandler: @escapin
         if let response = response {
             //Add session
             print("login func: \(response)")
+            
             AuthenticationStore.userKey = (response.account?.key)!
             AuthenticationStore.sessionId = (response.session?.id)!
-            completionHandler(true, error)
+            completionHandler(true, nil)
         } else {
             completionHandler(false, error)
         }
@@ -77,6 +78,31 @@ class func taskForPOSTDecodeRequest<RequestType: Encodable, ResponseType: Decoda
         let loginResponseData = data.subdata(in: range) /*subset response data! */
         print(String(data: loginResponseData, encoding: .utf8)!)
         
+        //Need to check the return response here for errror
+        let statusCode = (response as? HTTPURLResponse)?.statusCode
+        
+        if statusCode! > 400 {
+            
+             let errorDecoder = JSONDecoder()
+            
+            do {
+                let preErrorResponse = try errorDecoder.decode(OnTheMapErrorResponse.self, from: loginResponseData) as Error
+                DispatchQueue.main.async {
+                    completionHandler(nil, preErrorResponse)
+                    
+                }
+                
+                return
+                
+            } catch {
+                DispatchQueue.main.async {
+                    completionHandler(nil, error)
+                }
+            }
+            
+        }
+
+
     
         let decoder = JSONDecoder()
         do {
@@ -129,8 +155,15 @@ class func taskForPOSTDecodeRequest<RequestType: Encodable, ResponseType: Decoda
                 }
                 
             } catch {
+                do {
+                    let errorResponse = try jsonDecoder.decode(OnTheMapErrorResponse.self, from: newData) as Error
                 DispatchQueue.main.async {
-                    completionHandler(nil,error)
+                    completionHandler(nil,errorResponse)
+                }
+                } catch {
+                    DispatchQueue.main.async {
+                        completionHandler(nil, error)
+                    }
                 }
             }
         }

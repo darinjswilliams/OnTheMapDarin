@@ -23,6 +23,7 @@ enum EndPoints {
     case getStudentLimit
     case getStudentsSkip
     case getStudentOrder
+    case getStudentURL(String)
     
     
     var stringValue: String {
@@ -51,7 +52,8 @@ enum EndPoints {
             return "https://parse.udacity.com/parse/classes/StudentLocation?Limit=200&skip=400"
         case .getStudentOrder:
             return "https://parse.udacity.com/parse/classes/StudentLocation?order=-updatedAt"
-            
+        case .getStudentURL(let studentURL):
+              return (studentURL)
         }
     }
     
