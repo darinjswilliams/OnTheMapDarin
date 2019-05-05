@@ -45,7 +45,7 @@ class func login(username: String, password: String, completionHandler: @escapin
     }
     
     
-    private static func extractedFunc(_ request: inout URLRequest) {
+    fileprivate static func extractedFunc(_ request: inout URLRequest) {
         request.addValue(AuthenticationStore.headerJsonFormat, forHTTPHeaderField: AuthenticationStore.headerAccept)
         request.addValue(AuthenticationStore.headerJsonFormat, forHTTPHeaderField: AuthenticationStore.headerContentType)
     }

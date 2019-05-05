@@ -11,12 +11,13 @@ import Foundation
 class ParseClient {
     
     
-    class func requestLimitedStudents(completionHandler: @escaping ([StudentLocations]?, Error?)-> Void){
-        taskForGETRequest(url: EndPoints.getStudentLimit.url, response: AllStudentsInformation.self) { (response, error) in
+    class func processStudentRequest(url: URL, completionHandler: @escaping ([StudentLocations]?, Error?)-> Void){
+     
+        taskForGETRequest(url: url, response: AllStudentsInformation.self) { (response, error) in
             guard let response = response else {
                 print("requestLimitedStudents: Failed")
-             DispatchQueue.main.async {
-                completionHandler(nil, error)
+                DispatchQueue.main.async {
+                    completionHandler(nil, error)
                 }
                 return
             }
@@ -25,25 +26,7 @@ class ParseClient {
             }
         }
     }
-    
-    
-    //This is Called by Studnet List Controller
-    class func getSortedStudentList(completionHandler: @escaping ([StudentLocations]?, Error?)-> Void){
-        
-        
-        taskForGETRequest(url: EndPoints.getStudentOrder.url, response: AllStudentsInformation.self) { (response, error) in
-            
-            guard let response = response else {
-                print("requestSortedStudentLists: Failed")
-                completionHandler(nil, error)
-                return
-            }
-            print("getStudentList..\(response)")
-            completionHandler(response.results,error)
-        }
-    }
-    
-    
+
     class func postStudentNewLocation(postInformation:StudentNewLocation, completionHandler: @escaping (StudentPostLocationResponse?, Error?)-> Void) {
         
         
@@ -76,9 +59,6 @@ class ParseClient {
         var request = URLRequest(url: url)
         print("here is the url \(url)")
         
-//        request.addValue(AuthenticationStore.parseAppId, forHTTPHeaderField: AuthenticationStore.headerParseAppId)
-//
-//        request.addValue(AuthenticationStore.parseApiKey, forHTTPHeaderField: AuthenticationStore.headerParseAppKey)
          extractedFunc(&request)
         
         let downloadTask = URLSession.shared.dataTask(with: request) {
@@ -154,49 +134,5 @@ class ParseClient {
     
     return task
  }
-
-    
-    class func requestPostLocations(postInformation:StudentNewLocation, completionHandler: @escaping (StudentPostLocationResponse?,Error?)->Void) {
-        let endpoint:URL = EndPoints.getStudentBase.url
-        var request = URLRequest(url: endpoint)
-        request.httpMethod = AuthenticationStore.headerPost
-        
-         extractedFunc(&request)
-//        request.addValue(AuthenticationStore.parseAppId, forHTTPHeaderField: AuthenticationStore.headerParseAppId)
-//
-//        request.addValue(AuthenticationStore.parseApiKey, forHTTPHeaderField: AuthenticationStore.headerParseAppKey)
-//        request.addValue(AuthenticationStore.headerJsonFormat, forHTTPHeaderField: AuthenticationStore.headerContentType)
-        
-        let jsonEncoder = JSONEncoder()
-        let encodedPostData = try! jsonEncoder.encode(postInformation)
-        request.httpBody = encodedPostData
-        print(encodedPostData)
-        let task = URLSession.shared.dataTask(with: request) {
-            (data, response, error) in
-            guard let data = data else {
-                print(error!)
-                DispatchQueue.main.async {
-                    completionHandler(nil,error)
-                }
-                return
-            }
-            
-            let jsonDecoder = JSONDecoder()
-            do {
-                print(data.base64EncodedString())
-                let decodedData = try jsonDecoder.decode(
-                    StudentPostLocationResponse.self, from: data)
-                print(decodedData)
-                DispatchQueue.main.async {
-                    completionHandler(decodedData,nil)
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    completionHandler(nil,error)
-                }
-            }
-        }
-        task.resume()
-    }
     
 }

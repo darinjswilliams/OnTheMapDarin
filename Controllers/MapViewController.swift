@@ -38,9 +38,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         OnTheMapRestClient.getSingleStudentInformation(completionHandler: handleGetSingleStudentResponse(success:error:))
         
-         ParseClient.requestLimitedStudents(completionHandler: handleGetStudentLocation(studentLocation:error:))
         
-        
+        ParseClient.processStudentRequest(url: EndPoints.getStudentLimit.url, completionHandler: handleGetStudentLocation(studentLocation:error:))
       }
 
     func handleGetSingleStudentResponse(success: Bool, error: Error?) {
@@ -87,9 +86,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         
         self.mapView.addAnnotations(mapAnnotations)
-        
-        //MARK : STOP ACITIVITY INDICATOR
-        //        activityIndicator.stopAnimating()
 
     }
     
@@ -114,7 +110,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let app = UIApplication.shared
             if let url = view.annotation?.subtitle! {
                 guard !url.isEmpty else {
-                    print("NOT VALID URL")
+                    showFailure(message: "Not A Valid URL Link")
                     return
                 }
                 DispatchQueue.main.async {
