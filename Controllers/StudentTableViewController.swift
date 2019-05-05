@@ -55,7 +55,6 @@ class StudentTableViewController: UITableViewController {
     }
 
     @objc func populateTable(){
-//        ParseClient.getSortedStudentList(completionHandler: handleStudentResponse(studentLocations:error:))
         
         ParseClient.processStudentRequest(url: EndPoints.getStudentOrder.url, completionHandler: handleStudentResponse(studentLocations:error:))
     }
@@ -74,11 +73,14 @@ class StudentTableViewController: UITableViewController {
         }
     }
     
+    
+    //MARK CHECK THE URL TO SEE IF IT IS VALID
+    //THE URL HAS TO BEGIN WITH HTTP
     func checkForValidURL(urlString: String?) -> Bool {
         if let urlString = urlString {
-//            if let url = URL(EndPoints.getStudentURL(urlString).url) {
+
                 return UIApplication.shared.canOpenURL(EndPoints.getStudentURL(urlString).url)
-//            }
+
         }
         return false
     }
